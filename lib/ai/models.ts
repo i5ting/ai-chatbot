@@ -6,12 +6,14 @@ import {
   wrapLanguageModel,
 } from 'ai';
 
+const apiBaseUrl = process.env.OPENAI_API_BASE_URL;
+
 export const DEFAULT_CHAT_MODEL: string = 'chat-model-small';
 
 export const myProvider = customProvider({
   languageModels: {
-    'chat-model-small': openai('gpt-4o-mini'),
-    'chat-model-large': openai('gpt-4o'),
+    'chat-model-small': openai('gpt-4o-mini', { apiBaseUrl }),
+    'chat-model-large': openai('gpt-4o', { apiBaseUrl }),
     'chat-model-reasoning': wrapLanguageModel({
       model: fireworks('accounts/fireworks/models/deepseek-r1'),
       middleware: extractReasoningMiddleware({ tagName: 'think' }),
@@ -20,8 +22,8 @@ export const myProvider = customProvider({
     'artifact-model': openai('gpt-4o-mini'),
   },
   imageModels: {
-    'small-model': openai.image('dall-e-2'),
-    'large-model': openai.image('dall-e-3'),
+    'small-model': openai.image('dall-e-2', { apiBaseUrl }),
+    'large-model': openai.image('dall-e-3', { apiBaseUrl }),
   },
 });
 
